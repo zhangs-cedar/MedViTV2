@@ -4,18 +4,24 @@ Email: omid_nejaty@alumni.iust.ac.ir
 
 MedViTV2: A Robust Vision Transformer for Generalized Medical Image Classification.
 """
+# 标准库
 from functools import partial
 import math
-from fasterkan import FasterKAN as KAN
+
+# 第三方库
+import natten
 import torch
 import torch.utils.checkpoint as checkpoint
 from einops import rearrange
+from natten import NeighborhoodAttention2D as NeighborhoodAttention
 from timm.models.layers import DropPath, trunc_normal_
 from timm.models.registry import register_model
 from torch import nn
-import natten
-from natten import NeighborhoodAttention2D as NeighborhoodAttention
+
+# 本地模块
 from cedar.utils import print
+from fasterkan import FasterKAN as KAN
+
 is_natten_post_017 = hasattr(natten, "context")
 #from utils import merge_pre_bn
 

@@ -1,26 +1,22 @@
+# 标准库
 import argparse
+import sys
+
+# 第三方库
 import cv2
 import numpy as np
 import torch
 from medmnist import INFO, Evaluator
-from pytorch_grad_cam import GradCAM, \
-    ScoreCAM, \
-    GradCAMPlusPlus, \
-    AblationCAM, \
-    XGradCAM, \
-    EigenCAM, \
-    EigenGradCAM, \
-    LayerCAM, \
-    FullGrad
-
-
-from pytorch_grad_cam import GuidedBackpropReLUModel
-from pytorch_grad_cam.utils.image import show_cam_on_image, \
-    preprocess_image
+from pytorch_grad_cam import (
+    AblationCAM, EigenCAM, EigenGradCAM, FullGrad, GradCAM,
+    GradCAMPlusPlus, GuidedBackpropReLUModel, LayerCAM, ScoreCAM, XGradCAM
+)
 from pytorch_grad_cam.ablation_layer import AblationLayerVit
-import sys
+from pytorch_grad_cam.utils.image import preprocess_image, show_cam_on_image
+
+# 本地模块
 sys.path.append('/content/')
-from MedViT import MedViT_tiny, MedViT_small, MedViT_small, MedViT_large
+from MedViT import MedViT_large, MedViT_small, MedViT_tiny
 from cedar.utils import print
 
 def get_args():

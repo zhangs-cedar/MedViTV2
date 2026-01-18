@@ -1,27 +1,22 @@
+# 标准库
 import os
-import json
-from torch.utils.data import DataLoader, random_split, Subset
-import torch
-
-from torchvision import datasets, transforms
-from torchvision.datasets.folder import ImageFolder, default_loader
-
-from timm.data.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
-from timm.data import create_transform
-import medmnist
-from medmnist import INFO, Evaluator
-
-from cedar.utils import print, load_config, write_config
-
-import requests
-from zipfile import ZipFile
-import pandas as pd
 import shutil
+from zipfile import ZipFile
+
+# 第三方库
+import pandas as pd
+import requests
+import torch
+from medmnist import INFO, Evaluator
+from torch.utils.data import random_split, Subset
+from torchvision import datasets, transforms
+
+# 本地模块
+from cedar.utils import print
 
 # Set the random seed for reproducibility
 seed = 42
 torch.manual_seed(seed)
-
 
 root_dir='data'
 if not os.path.exists(root_dir):

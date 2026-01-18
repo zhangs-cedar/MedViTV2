@@ -1,31 +1,26 @@
+# 标准库
+import argparse
 import os
 import sys
-import numpy as np
-import matplotlib.pyplot as plt
-import argparse
+from distutils.util import strtobool
+
+# 第三方库
 import requests
 import timm
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.utils.data as data
-
-import torchvision.utils
-from torchvision import models
-import torchvision.datasets as dsets
-import torchvision.transforms as transforms
-from torchsummary import summary
-from datasets import build_dataset
-from distutils.util import strtobool
-from tqdm import tqdm
-import medmnist
 from medmnist import INFO, Evaluator
-from timm.data.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
-import natten
-from sklearn.metrics import precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix
+from sklearn.metrics import (confusion_matrix, f1_score,
+                                 precision_score, recall_score, roc_auc_score)
 from sklearn.preprocessing import label_binarize
-from MedViT import MedViT_tiny, MedViT_small, MedViT_base, MedViT_large
-from cedar.utils import print,create_name,load_config,write_config
+from tqdm import tqdm
+
+# 本地模块
+from MedViT import MedViT_base, MedViT_large, MedViT_small, MedViT_tiny
+from cedar.utils import print
+from datasets import build_dataset
 #from MedViTV1 import MedViT_small, MedViT_base, MedViT_large
 
 
