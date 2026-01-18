@@ -21,6 +21,7 @@ from pytorch_grad_cam.ablation_layer import AblationLayerVit
 import sys
 sys.path.append('/content/')
 from MedViT import MedViT_tiny, MedViT_small, MedViT_small, MedViT_large
+from cedar.utils import print
 
 def get_args():
     parser = argparse.ArgumentParser()

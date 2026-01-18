@@ -11,6 +11,7 @@ from timm.data import create_transform
 import medmnist
 from medmnist import INFO, Evaluator
 
+from cedar.utils import print, load_config, write_config
 
 import requests
 from zipfile import ZipFile
@@ -21,12 +22,6 @@ import shutil
 seed = 42
 torch.manual_seed(seed)
 
-
-import os
-import requests
-from zipfile import ZipFile
-import pandas as pd
-import shutil
 
 root_dir='data'
 if not os.path.exists(root_dir):

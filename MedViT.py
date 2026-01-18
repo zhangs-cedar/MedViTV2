@@ -15,6 +15,7 @@ from timm.models.registry import register_model
 from torch import nn
 import natten
 from natten import NeighborhoodAttention2D as NeighborhoodAttention
+from cedar.utils import print
 is_natten_post_017 = hasattr(natten, "context")
 #from utils import merge_pre_bn
 
