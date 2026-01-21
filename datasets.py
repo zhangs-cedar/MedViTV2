@@ -391,11 +391,29 @@ def build_dataset(args):
         task = info['task']
         n_channels = info['n_channels']
         nb_classes = len(info['label'])
-        DataClass = getattr(medmnist, info['python_class'])
+        DataClass = getattr(medmnist, info['python_class']) # type: ignore
         print("Number of channels: ", n_channels)
         print("Number of classes: ", nb_classes)
         train_dataset = DataClass(split='train', transform=train_transform, download=True, as_rgb=True, root='./data', size=224, mmap_mode='r')
         test_dataset = DataClass(split='test', transform=test_transform, download=True, as_rgb=True, root='./data', size=224, mmap_mode='r')
+        return train_dataset, test_dataset, nb_classes
+    
+    elif args.dataset == 'fabric':
+        nb_classes = 27  # 根据你的类别数量修改
+        
+        train_dataset = datasets.ImageFolder(
+            root='/dataset/songzhang/SMore_dev/learning/MedViTV2/temp/fabric/train',
+            transform=train_transform
+        )
+        test_dataset = datasets.ImageFolder(
+            root='/dataset/songzhang/SMore_dev/learning/MedViTV2/temp/fabric/test',
+            transform=test_transform
+        )
+        
+        print(f"Dataset is available at: /dataset/songzhang/SMore_dev/learning/MedViTV2/temp/fabric")
+        print(f"Number of classes: {nb_classes}")
+        print(f"Class names: {train_dataset.classes}")
+        
         return train_dataset, test_dataset, nb_classes
     else:
         raise NotImplementedError()
@@ -434,3 +452,20 @@ def build_transform(args):
     t_test.append(transforms.ToTensor())
     t_test.append(transforms.Normalize(mean=[.5], std=[.5]))
     return transforms.Compose(t_train), transforms.Compose(t_test)
+
+
+if __name__ == "__main__":
+    class args:
+        dataset = 'fabric'
+        batch_size = 32
+        lr = 0.0001
+        epochs = 100
+        pretrained = False
+        checkpoint_path = './checkpoint/MedViT_tiny.pth'
+        model_name = 'MedViT_tiny'
+        
+    train_dataset, test_dataset, nb_classes = build_dataset(args)
+    print(f"Number of classes: {nb_classes}")
+    print(f"Class names: {train_dataset.classes}")
+    print(f"Number of training samples: {len(train_dataset)}")
+    print(f"Number of testing samples: {len(test_dataset)}")
