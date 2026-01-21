@@ -48,6 +48,10 @@ pip install -r requirements.txt
 python main.py --model_name 'MedViT_small' --dataset 'breastmnist' --pretrained False
 ```
 
+```bash
+python main.py --model_name 'MedViT_small' --dataset 'fabric' --pretrained False
+```
+
 ### 主要参数说明
 
 - `--model_name`: 模型名称，可选 `MedViT_tiny`, `MedViT_small`, `MedViT_base`, `MedViT_large`

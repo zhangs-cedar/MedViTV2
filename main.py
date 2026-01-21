@@ -2,7 +2,7 @@
 import argparse
 import os
 import sys
-from distutils.util import strtobool
+from distutils.util import strtobool # type: ignore
 
 # 第三方库
 import requests
@@ -15,14 +15,18 @@ from medmnist import INFO, Evaluator
 from sklearn.metrics import (confusion_matrix, f1_score,
                                  precision_score, recall_score, roc_auc_score)
 from sklearn.preprocessing import label_binarize
-from tqdm import tqdm
 
 # 本地模块
 from MedViT import MedViT_base, MedViT_large, MedViT_small, MedViT_tiny
-from cedar.utils import print
+from cedar.utils import print,create_name
 from datasets import build_dataset
 #from MedViTV1 import MedViT_small, MedViT_base, MedViT_large
-
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+LOG_PATH = os.path.join(ROOT_DIR, 'logs', create_name()+'.log')
+os.environ['ROOT_DIR'] = ROOT_DIR
+os.environ['LOG_PATH'] = LOG_PATH
+print(f"ROOT_DIR: {ROOT_DIR}")
+print(f"LOG_PATH: {LOG_PATH}")
 
 model_classes = {
     'MedViT_tiny': MedViT_tiny,
@@ -53,8 +57,7 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
     for epoch in range(epochs):
         net.train()
         running_loss = 0.0
-        train_bar = tqdm(train_loader, file=sys.stdout)
-        for step, datax in enumerate(train_bar):
+        for step, datax in enumerate(train_loader):
             images, labels = datax
             images, labels = images.to(device), labels.to(device)
             optimizer.zero_grad()
@@ -72,13 +75,14 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             scheduler.step()
             running_loss += loss.item()
 
-            train_bar.desc = f"train epoch[{epoch + 1}/{epochs}] loss:{loss:.3f}"
+            if (step + 1) % 10 == 0 or (step + 1) == len(train_loader):
+                print(f"train epoch[{epoch + 1}/{epochs}] step[{step + 1}/{len(train_loader)}] loss:{loss:.3f}")
         
         net.eval()
         y_score = torch.tensor([])
         with torch.no_grad():
-            val_bar = tqdm(test_loader, file=sys.stdout)
-            for val_data in val_bar:
+            print(f"Validating epoch[{epoch + 1}/{epochs}]...")
+            for val_data in test_loader:
                 inputs, targets = val_data
                 outputs = net(inputs.to(device))
                 
@@ -135,10 +139,9 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
     for epoch in range(epochs):
         net.train()
         running_loss = 0.0
-        train_bar = tqdm(train_loader, file=sys.stdout)
 
         # Training Loop
-        for step, datax in enumerate(train_bar):
+        for step, datax in enumerate(train_loader):
             images, labels = datax
             optimizer.zero_grad()
             outputs = net(images.to(device))
@@ -148,7 +151,8 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             scheduler.step()
             running_loss += loss.item()
 
-            train_bar.desc = f"train epoch[{epoch + 1}/{epochs}] loss:{loss:.3f}"
+            if (step + 1) % 10 == 0 or (step + 1) == len(train_loader):
+                print(f"train epoch[{epoch + 1}/{epochs}] step[{step + 1}/{len(train_loader)}] loss:{loss:.3f}")
         
         # Validation Loop
         net.eval()
@@ -158,8 +162,8 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
         acc = 0.0
         
         with torch.no_grad():
-            val_bar = tqdm(test_loader, file=sys.stdout)
-            for val_data in val_bar:
+            print(f"Validating epoch[{epoch + 1}/{epochs}]...")
+            for val_data in test_loader:
                 val_images, val_labels = val_data
                 outputs = net(val_images.to(device))  # Raw outputs (logits)
                 probs = torch.softmax(outputs, dim=1)  # Convert to probabilities
