@@ -2,6 +2,7 @@
 import argparse
 import os
 import sys
+import time
 from distutils.util import strtobool # type: ignore
 
 # 第三方库
@@ -54,12 +55,26 @@ def download_checkpoint(url, path):
 # Define the MNIST training routine
 def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, loss_function, device, save_path, data_flag, task):
     best_acc = 0.0
+    total_steps = epochs * len(train_loader)
+    start_time = time.time()
+    step_times = []
+    
     for epoch in range(epochs):
         net.train()
         running_loss = 0.0
+        epoch_start_time = time.time()
+        
         for step, datax in enumerate(train_loader):
+            step_start_time = time.time()
+            
+            # Data loading time (already loaded by DataLoader, measure transfer time)
+            data_start = time.time()
             images, labels = datax
             images, labels = images.to(device), labels.to(device)
+            data_time = time.time() - data_start
+            
+            # Forward pass
+            forward_start = time.time()
             optimizer.zero_grad()
             outputs = net(images)
             
@@ -69,14 +84,51 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             else:
                 labels = labels.squeeze().long()
                 loss = loss_function(outputs.squeeze(0), labels)
+            forward_time = time.time() - forward_start
             
+            # Backward pass
+            backward_start = time.time()
             loss.backward()
             optimizer.step()
             scheduler.step()
+            backward_time = time.time() - backward_start
+            
             running_loss += loss.item()
-
+            step_time = time.time() - step_start_time
+            step_times.append(step_time)
+            
+            # Keep only last 50 step times for ETA calculation
+            if len(step_times) > 50:
+                step_times.pop(0)
+            
+            # Calculate progress and ETA
+            current_step = epoch * len(train_loader) + step + 1
+            progress = (current_step / total_steps) * 100
+            avg_step_time = sum(step_times) / len(step_times)
+            remaining_steps = total_steps - current_step
+            eta_seconds = remaining_steps * avg_step_time
+            eta_hours = int(eta_seconds // 3600)
+            eta_minutes = int((eta_seconds % 3600) // 60)
+            eta_secs = int(eta_seconds % 60)
+            
+            # Get learning rate
+            current_lr = scheduler.get_last_lr()[0]
+            
+            # Get GPU memory usage (reset at start of next step)
+            if torch.cuda.is_available():
+                max_mem = torch.cuda.max_memory_allocated(device) / 1024 / 1024  # MB
+                if (step + 1) % 10 == 0 or (step + 1) == len(train_loader):
+                    torch.cuda.reset_peak_memory_stats(device)
+            else:
+                max_mem = 0
+            
             if (step + 1) % 10 == 0 or (step + 1) == len(train_loader):
-                print(f"train epoch[{epoch + 1}/{epochs}] step[{step + 1}/{len(train_loader)}] loss:{loss:.3f}")
+                print(f"eta: {eta_hours}:{eta_minutes:02d}:{eta_secs:02d}  "
+                      f"iter: {current_step}  progress: {progress:.1f}  "
+                      f"loss: {loss.item():.4f}  "
+                      f"time: {step_time:.3f}  data_time: {data_time:.3f}  "
+                      f"forward_time: {forward_time:.3f}  backward_time: {backward_time:.3f}  "
+                      f"lr: {current_lr:.6f}  max_mem: {max_mem:.0f}M")
         
         net.eval()
         y_score = torch.tensor([])
@@ -135,24 +187,75 @@ def overall_accuracy(conf_matrix):
 
 def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, loss_function, device, save_path):
     best_acc = 0.0
+    total_steps = epochs * len(train_loader)
+    start_time = time.time()
+    step_times = []
     
     for epoch in range(epochs):
         net.train()
         running_loss = 0.0
+        epoch_start_time = time.time()
 
         # Training Loop
         for step, datax in enumerate(train_loader):
+            step_start_time = time.time()
+            
+            # Data loading time (already loaded by DataLoader, measure transfer time)
+            data_start = time.time()
             images, labels = datax
+            images, labels = images.to(device), labels.to(device)
+            data_time = time.time() - data_start
+            
+            # Forward pass
+            forward_start = time.time()
             optimizer.zero_grad()
-            outputs = net(images.to(device))
-            loss = loss_function(outputs, labels.to(device))
+            outputs = net(images)
+            loss = loss_function(outputs, labels)
+            forward_time = time.time() - forward_start
+            
+            # Backward pass
+            backward_start = time.time()
             loss.backward()
             optimizer.step()
             scheduler.step()
+            backward_time = time.time() - backward_start
+            
             running_loss += loss.item()
-
+            step_time = time.time() - step_start_time
+            step_times.append(step_time)
+            
+            # Keep only last 50 step times for ETA calculation
+            if len(step_times) > 50:
+                step_times.pop(0)
+            
+            # Calculate progress and ETA
+            current_step = epoch * len(train_loader) + step + 1
+            progress = (current_step / total_steps) * 100
+            avg_step_time = sum(step_times) / len(step_times)
+            remaining_steps = total_steps - current_step
+            eta_seconds = remaining_steps * avg_step_time
+            eta_hours = int(eta_seconds // 3600)
+            eta_minutes = int((eta_seconds % 3600) // 60)
+            eta_secs = int(eta_seconds % 60)
+            
+            # Get learning rate
+            current_lr = scheduler.get_last_lr()[0]
+            
+            # Get GPU memory usage (reset at start of next step)
+            if torch.cuda.is_available():
+                max_mem = torch.cuda.max_memory_allocated(device) / 1024 / 1024  # MB
+                if (step + 1) % 10 == 0 or (step + 1) == len(train_loader):
+                    torch.cuda.reset_peak_memory_stats(device)
+            else:
+                max_mem = 0
+            
             if (step + 1) % 10 == 0 or (step + 1) == len(train_loader):
-                print(f"train epoch[{epoch + 1}/{epochs}] step[{step + 1}/{len(train_loader)}] loss:{loss:.3f}")
+                print(f"eta: {eta_hours}:{eta_minutes:02d}:{eta_secs:02d}  "
+                      f"iter: {current_step}  progress: {progress:.1f}  "
+                      f"loss: {loss.item():.4f}  "
+                      f"time: {step_time:.3f}  data_time: {data_time:.3f}  "
+                      f"forward_time: {forward_time:.3f}  backward_time: {backward_time:.3f}  "
+                      f"lr: {current_lr:.6f}  max_mem: {max_mem:.0f}M")
         
         # Validation Loop
         net.eval()
