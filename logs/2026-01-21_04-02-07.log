@@ -1961,3 +1961,14 @@ Saving checkpoint...
 [2026-01-21 14:00:16]   eta: 14:48:02  iter: 19150  progress: 4.6  loss: 2.0307  time: 0.119  data_time: 0.002  forward_time: 0.022  backward_time: 0.026  lr: 0.000100  max_mem: 7782M    
 [2026-01-21 14:00:38]   eta: 15:00:26  iter: 19160  progress: 4.6  loss: 1.7469  time: 0.198  data_time: 0.002  forward_time: 0.100  backward_time: 0.025  lr: 0.000100  max_mem: 7782M    
 [2026-01-21 14:01:02]   eta: 15:00:39  iter: 19170  progress: 4.6  loss: 1.7753  time: 0.174  data_time: 0.002  forward_time: 0.089  backward_time: 0.017  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 14:01:25]   eta: 15:21:58  iter: 19180  progress: 4.6  loss: 1.5878  time: 0.119  data_time: 0.002  forward_time: 0.018  backward_time: 0.029  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 14:01:47]   eta: 15:22:54  iter: 19190  progress: 4.6  loss: 1.7749  time: 0.121  data_time: 0.002  forward_time: 0.023  backward_time: 0.025  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 14:02:08]   eta: 15:08:37  iter: 19200  progress: 4.6  loss: 2.4373  time: 0.119  data_time: 0.002  forward_time: 0.023  backward_time: 0.025  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 14:02:30]   eta: 14:48:13  iter: 19210  progress: 4.6  loss: 1.8108  time: 0.118  data_time: 0.002  forward_time: 0.020  backward_time: 0.027  lr: 0.000099  max_mem: 7782M    
+[2026-01-21 14:02:53]   eta: 15:02:06  iter: 19220  progress: 4.6  loss: 2.0840  time: 0.119  data_time: 0.002  forward_time: 0.017  backward_time: 0.028  lr: 0.000099  max_mem: 7782M    
+[2026-01-21 14:03:13]   eta: 14:53:24  iter: 19230  progress: 4.6  loss: 1.8615  time: 0.198  data_time: 0.082  forward_time: 0.018  backward_time: 0.027  lr: 0.000099  max_mem: 7782M    
+[2026-01-21 14:03:40]   eta: 14:46:33  iter: 19240  progress: 4.6  loss: 2.1670  time: 0.119  data_time: 0.002  forward_time: 0.018  backward_time: 0.028  lr: 0.000099  max_mem: 7782M    
+[2026-01-21 14:04:02]   eta: 15:03:46  iter: 19250  progress: 4.6  loss: 1.5204  time: 0.190  data_time: 0.001  forward_time: 0.095  backward_time: 0.022  lr: 0.000099  max_mem: 7782M    
+[2026-01-21 14:04:28]   eta: 15:14:51  iter: 19260  progress: 4.6  loss: 1.6938  time: 0.116  data_time: 0.002  forward_time: 0.016  backward_time: 0.031  lr: 0.000099  max_mem: 7782M    
+[2026-01-21 14:04:51]   eta: 15:24:52  iter: 19270  progress: 4.6  loss: 1.9596  time: 0.119  data_time: 0.002  forward_time: 0.017  backward_time: 0.029  lr: 0.000099  max_mem: 7782M    
+[2026-01-21 14:05:20]   eta: 15:00:25  iter: 19280  progress: 4.6  loss: 2.1295  time: 0.172  data_time: 0.001  forward_time: 0.088  backward_time: 0.021  lr: 0.000099  max_mem: 7782M    

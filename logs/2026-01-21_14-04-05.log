@@ -1,0 +1,72 @@
+[2026-01-21 14:04:05]   ROOT_DIR: /dataset/songzhang/SMore_dev/learning/MedViTV2    
+[2026-01-21 14:04:05]   LOG_PATH: /dataset/songzhang/SMore_dev/learning/MedViTV2/logs/2026-01-21_14-04-05.log    
+[2026-01-21 14:04:05]   Using cuda:0 device.    
+[2026-01-21 14:04:07]   Dataset is available at: /dataset/songzhang/SMore_dev/learning/MedViTV2/temp/fabric    
+[2026-01-21 14:04:07]   Number of classes: 27    
+[2026-01-21 14:04:07]   Class names: ['canvas', 'chambray', 'chenille', 'chiffon', 'corduroy', 'crepe', 'denim', 'faux_fur', 'faux_leather', 'flannel', 'fleece', 'gingham', 'jersey', 'knit', 'lace', 'lawn', 'neoprene', 'organza', 'plush', 'satin', 'serge', 'taffeta', 'tulle', 'tweed', 'twill', 'velvet', 'vinyl']    
+[2026-01-21 14:04:08]   initialize_weights...    
+[2026-01-21 14:04:09]   (ImageFolder) Dataset ImageFolder
+    Number of datapoints: 99716
+    Root location: /dataset/songzhang/SMore_dev/learning/MedViTV2/temp/fabric/train
+    StandardTransform
+Transform: Compose(
+               RandomResizedCrop(size=(224, 224), scale=(0.08, 1.0), ratio=(0.75, 1.3333), interpolation=bilinear, antialias=True)
+               AugMix(severity=3, mixture_width=3, chain_depth=-1, alpha=0.4, all_ops=True, interpolation=InterpolationMode.BILINEAR, fill=None)
+               RandomHorizontalFlip(p=0.4)
+               ToTensor()
+               Normalize(mean=[0.5], std=[0.5])
+           )    
+[2026-01-21 14:04:09]   ===================    
+[2026-01-21 14:04:09]   (ImageFolder) Dataset ImageFolder
+    Number of datapoints: 24629
+    Root location: /dataset/songzhang/SMore_dev/learning/MedViTV2/temp/fabric/test
+    StandardTransform
+Transform: Compose(
+               Resize(size=(224, 224), interpolation=bilinear, max_size=None, antialias=True)
+               ToTensor()
+               Normalize(mean=[0.5], std=[0.5])
+           )    
+[2026-01-21 14:04:13]   epoch: [1/100]  step: [10/4155] (0.2%)  eta_epoch: 25:42  eta_total: 42:58:41  loss: 3.2696  time: 0.125  data_time: 0.001  forward_time: 0.035  backward_time: 0.070  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:14]   epoch: [1/100]  step: [20/4155] (0.5%)  eta_epoch: 17:25  eta_total: 29:12:21  loss: 3.1426  time: 0.140  data_time: 0.001  forward_time: 0.050  backward_time: 0.076  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:16]   epoch: [1/100]  step: [30/4155] (0.7%)  eta_epoch: 14:44  eta_total: 24:45:57  loss: 3.2474  time: 0.124  data_time: 0.001  forward_time: 0.035  backward_time: 0.073  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:17]   epoch: [1/100]  step: [40/4155] (1.0%)  eta_epoch: 13:32  eta_total: 22:47:36  loss: 3.3647  time: 0.153  data_time: 0.001  forward_time: 0.057  backward_time: 0.087  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:19]   epoch: [1/100]  step: [50/4155] (1.2%)  eta_epoch: 12:47  eta_total: 21:35:36  loss: 3.1691  time: 0.128  data_time: 0.001  forward_time: 0.038  backward_time: 0.072  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:20]   epoch: [1/100]  step: [60/4155] (1.4%)  eta_epoch: 11:50  eta_total: 20:01:59  loss: 3.0205  time: 0.127  data_time: 0.001  forward_time: 0.037  backward_time: 0.070  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:22]   epoch: [1/100]  step: [70/4155] (1.7%)  eta_epoch: 11:34  eta_total: 19:37:04  loss: 3.2277  time: 0.123  data_time: 0.001  forward_time: 0.047  backward_time: 0.045  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:23]   epoch: [1/100]  step: [80/4155] (1.9%)  eta_epoch: 11:17  eta_total: 19:11:20  loss: 3.2121  time: 0.114  data_time: 0.001  forward_time: 0.033  backward_time: 0.050  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:25]   epoch: [1/100]  step: [90/4155] (2.2%)  eta_epoch: 11:07  eta_total: 18:57:16  loss: 2.9734  time: 0.131  data_time: 0.001  forward_time: 0.049  backward_time: 0.062  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:26]   epoch: [1/100]  step: [100/4155] (2.4%)  eta_epoch: 10:53  eta_total: 18:35:56  loss: 3.3072  time: 0.122  data_time: 0.001  forward_time: 0.034  backward_time: 0.072  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:28]   epoch: [1/100]  step: [110/4155] (2.6%)  eta_epoch: 10:38  eta_total: 18:12:55  loss: 3.0249  time: 0.117  data_time: 0.001  forward_time: 0.041  backward_time: 0.048  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:29]   epoch: [1/100]  step: [120/4155] (2.9%)  eta_epoch: 10:24  eta_total: 17:51:49  loss: 3.2200  time: 0.124  data_time: 0.001  forward_time: 0.046  backward_time: 0.060  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:31]   epoch: [1/100]  step: [130/4155] (3.1%)  eta_epoch: 10:21  eta_total: 17:48:41  loss: 3.1700  time: 0.125  data_time: 0.001  forward_time: 0.050  backward_time: 0.050  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:32]   epoch: [1/100]  step: [140/4155] (3.4%)  eta_epoch: 10:13  eta_total: 17:37:55  loss: 3.1879  time: 0.135  data_time: 0.001  forward_time: 0.056  backward_time: 0.058  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:33]   epoch: [1/100]  step: [150/4155] (3.6%)  eta_epoch: 10:06  eta_total: 17:28:56  loss: 3.1268  time: 0.115  data_time: 0.001  forward_time: 0.034  backward_time: 0.045  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:35]   epoch: [1/100]  step: [160/4155] (3.9%)  eta_epoch: 9:59  eta_total: 17:18:29  loss: 3.1988  time: 0.123  data_time: 0.001  forward_time: 0.046  backward_time: 0.045  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:36]   epoch: [1/100]  step: [170/4155] (4.1%)  eta_epoch: 9:52  eta_total: 17:08:57  loss: 3.2766  time: 0.122  data_time: 0.001  forward_time: 0.039  backward_time: 0.066  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:37]   epoch: [1/100]  step: [180/4155] (4.3%)  eta_epoch: 9:48  eta_total: 17:04:44  loss: 3.1486  time: 0.133  data_time: 0.001  forward_time: 0.057  backward_time: 0.052  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:39]   epoch: [1/100]  step: [190/4155] (4.6%)  eta_epoch: 9:47  eta_total: 17:05:27  loss: 3.1220  time: 0.128  data_time: 0.001  forward_time: 0.040  backward_time: 0.066  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:40]   epoch: [1/100]  step: [200/4155] (4.8%)  eta_epoch: 9:41  eta_total: 16:58:20  loss: 2.9164  time: 0.124  data_time: 0.001  forward_time: 0.048  backward_time: 0.047  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:41]   epoch: [1/100]  step: [210/4155] (5.1%)  eta_epoch: 9:37  eta_total: 16:53:43  loss: 3.3084  time: 0.121  data_time: 0.001  forward_time: 0.045  backward_time: 0.045  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:43]   epoch: [1/100]  step: [220/4155] (5.3%)  eta_epoch: 9:31  eta_total: 16:45:01  loss: 3.0260  time: 0.134  data_time: 0.001  forward_time: 0.040  backward_time: 0.076  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:44]   epoch: [1/100]  step: [230/4155] (5.5%)  eta_epoch: 9:29  eta_total: 16:43:56  loss: 3.1248  time: 0.118  data_time: 0.001  forward_time: 0.032  backward_time: 0.069  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:46]   epoch: [1/100]  step: [240/4155] (5.8%)  eta_epoch: 9:22  eta_total: 16:34:57  loss: 2.9578  time: 0.118  data_time: 0.001  forward_time: 0.032  backward_time: 0.067  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:47]   epoch: [1/100]  step: [250/4155] (6.0%)  eta_epoch: 9:16  eta_total: 16:26:08  loss: 3.2308  time: 0.117  data_time: 0.001  forward_time: 0.033  backward_time: 0.060  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:48]   epoch: [1/100]  step: [260/4155] (6.3%)  eta_epoch: 9:11  eta_total: 16:19:09  loss: 3.3380  time: 0.114  data_time: 0.001  forward_time: 0.035  backward_time: 0.042  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:50]   epoch: [1/100]  step: [270/4155] (6.5%)  eta_epoch: 9:07  eta_total: 16:15:29  loss: 3.1939  time: 0.115  data_time: 0.001  forward_time: 0.037  backward_time: 0.046  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:51]   epoch: [1/100]  step: [280/4155] (6.7%)  eta_epoch: 9:10  eta_total: 16:22:52  loss: 2.9443  time: 0.132  data_time: 0.001  forward_time: 0.056  backward_time: 0.046  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:53]   epoch: [1/100]  step: [290/4155] (7.0%)  eta_epoch: 9:09  eta_total: 16:23:54  loss: 3.2318  time: 0.135  data_time: 0.001  forward_time: 0.046  backward_time: 0.073  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:54]   epoch: [1/100]  step: [300/4155] (7.2%)  eta_epoch: 9:07  eta_total: 16:22:20  loss: 2.8734  time: 0.115  data_time: 0.001  forward_time: 0.032  backward_time: 0.042  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:55]   epoch: [1/100]  step: [310/4155] (7.5%)  eta_epoch: 9:04  eta_total: 16:19:23  loss: 2.8780  time: 0.114  data_time: 0.001  forward_time: 0.033  backward_time: 0.055  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:57]   epoch: [1/100]  step: [320/4155] (7.7%)  eta_epoch: 9:00  eta_total: 16:15:49  loss: 3.1302  time: 0.115  data_time: 0.001  forward_time: 0.026  backward_time: 0.039  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:58]   epoch: [1/100]  step: [330/4155] (7.9%)  eta_epoch: 8:56  eta_total: 16:10:19  loss: 2.6701  time: 0.114  data_time: 0.001  forward_time: 0.024  backward_time: 0.056  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:04:59]   epoch: [1/100]  step: [340/4155] (8.2%)  eta_epoch: 8:54  eta_total: 16:10:02  loss: 2.8944  time: 0.120  data_time: 0.001  forward_time: 0.031  backward_time: 0.068  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:05:01]   epoch: [1/100]  step: [350/4155] (8.4%)  eta_epoch: 8:53  eta_total: 16:10:19  loss: 3.1965  time: 0.137  data_time: 0.001  forward_time: 0.048  backward_time: 0.077  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:05:02]   epoch: [1/100]  step: [360/4155] (8.7%)  eta_epoch: 8:49  eta_total: 16:06:13  loss: 2.9183  time: 0.114  data_time: 0.001  forward_time: 0.027  backward_time: 0.036  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:05:03]   epoch: [1/100]  step: [370/4155] (8.9%)  eta_epoch: 8:48  eta_total: 16:05:58  loss: 3.0669  time: 0.120  data_time: 0.001  forward_time: 0.033  backward_time: 0.065  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:05:05]   epoch: [1/100]  step: [380/4155] (9.1%)  eta_epoch: 8:46  eta_total: 16:05:05  loss: 3.0472  time: 0.114  data_time: 0.001  forward_time: 0.032  backward_time: 0.041  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:05:06]   epoch: [1/100]  step: [390/4155] (9.4%)  eta_epoch: 8:42  eta_total: 15:59:16  loss: 3.0421  time: 0.119  data_time: 0.001  forward_time: 0.032  backward_time: 0.066  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:05:07]   epoch: [1/100]  step: [400/4155] (9.6%)  eta_epoch: 8:39  eta_total: 15:56:52  loss: 3.1272  time: 0.128  data_time: 0.001  forward_time: 0.047  backward_time: 0.063  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:05:09]   epoch: [1/100]  step: [410/4155] (9.9%)  eta_epoch: 8:38  eta_total: 15:58:22  loss: 3.4058  time: 0.123  data_time: 0.001  forward_time: 0.047  backward_time: 0.046  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:05:10]   epoch: [1/100]  step: [420/4155] (10.1%)  eta_epoch: 8:40  eta_total: 16:03:36  loss: 3.0598  time: 0.136  data_time: 0.001  forward_time: 0.049  backward_time: 0.072  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:05:12]   epoch: [1/100]  step: [430/4155] (10.3%)  eta_epoch: 8:38  eta_total: 16:03:18  loss: 2.8546  time: 0.138  data_time: 0.001  forward_time: 0.056  backward_time: 0.060  lr: 0.000100  max_mem: 5159M      
+[2026-01-21 14:05:13]   epoch: [1/100]  step: [440/4155] (10.6%)  eta_epoch: 8:39  eta_total: 16:07:56  loss: 3.1557  time: 0.140  data_time: 0.001  forward_time: 0.051  backward_time: 0.076  lr: 0.000100  max_mem: 5159M      

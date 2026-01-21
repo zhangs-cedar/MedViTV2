@@ -593,3 +593,5 @@ Saving checkpoint...
 [2026-01-21 13:56:31]   eta: 24:46:24  iter: 5605  progress: 1.3  loss: 1.9264  time: 0.317  data_time: 0.107  forward_time: 0.136  backward_time: 0.068  lr: 0.000100  max_mem: 5159M    
 [2026-01-21 13:58:40]   eta: 24:11:03  iter: 5615  progress: 1.4  loss: 1.8272  time: 0.209  data_time: 0.004  forward_time: 0.135  backward_time: 0.066  lr: 0.000100  max_mem: 5159M    
 [2026-01-21 14:00:47]   eta: 24:40:30  iter: 5625  progress: 1.4  loss: 2.2530  time: 0.292  data_time: 0.004  forward_time: 0.220  backward_time: 0.066  lr: 0.000100  max_mem: 5159M    
+[2026-01-21 14:02:52]   eta: 24:40:20  iter: 5635  progress: 1.4  loss: 2.4166  time: 0.228  data_time: 0.004  forward_time: 0.144  backward_time: 0.080  lr: 0.000100  max_mem: 5159M    
+[2026-01-21 14:04:56]   eta: 25:01:18  iter: 5645  progress: 1.4  loss: 2.0846  time: 0.188  data_time: 0.004  forward_time: 0.115  backward_time: 0.065  lr: 0.000100  max_mem: 5159M    
