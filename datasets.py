@@ -415,6 +415,59 @@ def build_dataset(args):
         print(f"Class names: {train_dataset.classes}")
         
         return train_dataset, test_dataset, nb_classes
+    
+    elif args.dataset == 'fiber':
+        # Clean up empty class folders before loading
+        train_root = '/dataset/songzhang/SMore_dev/learning/MedViTV2/temp/fiber/train'
+        test_root = '/dataset/songzhang/SMore_dev/learning/MedViTV2/temp/fiber/test'
+        
+        # Supported image extensions
+        valid_extensions = {'.jpg', '.jpeg', '.png', '.ppm', '.bmp', '.pgm', '.tif', '.tiff', '.webp'}
+        
+        def has_valid_images(folder_path):
+            """Check if folder contains any valid image files"""
+            if not os.path.exists(folder_path):
+                return False
+            for file in os.listdir(folder_path):
+                if os.path.splitext(file.lower())[1] in valid_extensions:
+                    return True
+            return False
+        
+        def clean_empty_folders(root_dir):
+            """Remove empty class folders"""
+            if not os.path.exists(root_dir):
+                return
+            removed_folders = []
+            for class_folder in os.listdir(root_dir):
+                class_path = os.path.join(root_dir, class_folder)
+                if os.path.isdir(class_path) and not has_valid_images(class_path):
+                    print(f"Removing empty folder: {class_path}")
+                    shutil.rmtree(class_path)
+                    removed_folders.append(class_folder)
+            if removed_folders:
+                print(f"Removed {len(removed_folders)} empty folder(s): {removed_folders}")
+        
+        # Clean empty folders in both train and test directories
+        clean_empty_folders(train_root)
+        clean_empty_folders(test_root)
+        
+        train_dataset = datasets.ImageFolder(
+            root=train_root,
+            transform=train_transform
+        )
+        test_dataset = datasets.ImageFolder(
+            root=test_root,
+            transform=test_transform
+        )
+        
+        # Get actual number of classes from the dataset
+        nb_classes = len(train_dataset.classes)
+        
+        print(f"Dataset is available at: /dataset/songzhang/SMore_dev/learning/MedViTV2/temp/fiber")
+        print(f"Number of classes: {nb_classes}")
+        print(f"Class names: {train_dataset.classes}")
+        
+        return train_dataset, test_dataset, nb_classes
     else:
         raise NotImplementedError()
     
@@ -456,7 +509,7 @@ def build_transform(args):
 
 if __name__ == "__main__":
     class args:
-        dataset = 'fabric'
+        dataset = 'fiber'
         batch_size = 32
         lr = 0.0001
         epochs = 100

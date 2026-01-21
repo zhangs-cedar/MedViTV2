@@ -1,0 +1,39 @@
+[2026-01-21 14:20:53]   ROOT_DIR: /dataset/songzhang/SMore_dev/learning/MedViTV2    
+[2026-01-21 14:20:53]   LOG_PATH: /dataset/songzhang/SMore_dev/learning/MedViTV2/logs/2026-01-21_14-20-53.log    
+[2026-01-21 14:20:53]   Using cuda:0 device.    
+[2026-01-21 14:20:55]   Dataset is available at: /dataset/songzhang/SMore_dev/learning/MedViTV2/temp/fiber    
+[2026-01-21 14:20:55]   Number of classes: 33    
+[2026-01-21 14:20:55]   Class names: ['abaca', 'acrylic', 'alpaca', 'angora', 'aramid', 'camel', 'cashmere', 'cotton', 'cupro', 'elastane_spandex', 'flax_linen', 'fur', 'hemp', 'horse_hair', 'jute', 'leather', 'llama', 'lyocell', 'milk_fiber', 'modal', 'mohair', 'nylon', 'polyester', 'polyolefin', 'ramie', 'silk', 'sisal', 'soybean_fiber', 'suede', 'triacetate_acetate', 'viscose_rayon', 'wool', 'yak']    
+[2026-01-21 14:20:55]   initialize_weights...    
+[2026-01-21 14:20:56]   (ImageFolder) Dataset ImageFolder
+    Number of datapoints: 100156
+    Root location: /dataset/songzhang/SMore_dev/learning/MedViTV2/temp/fiber/train
+    StandardTransform
+Transform: Compose(
+               RandomResizedCrop(size=(224, 224), scale=(0.08, 1.0), ratio=(0.75, 1.3333), interpolation=bilinear, antialias=True)
+               AugMix(severity=3, mixture_width=3, chain_depth=-1, alpha=0.4, all_ops=True, interpolation=InterpolationMode.BILINEAR, fill=None)
+               RandomHorizontalFlip(p=0.4)
+               ToTensor()
+               Normalize(mean=[0.5], std=[0.5])
+           )    
+[2026-01-21 14:20:56]   ===================    
+[2026-01-21 14:20:56]   (ImageFolder) Dataset ImageFolder
+    Number of datapoints: 24890
+    Root location: /dataset/songzhang/SMore_dev/learning/MedViTV2/temp/fiber/test
+    StandardTransform
+Transform: Compose(
+               Resize(size=(224, 224), interpolation=bilinear, max_size=None, antialias=True)
+               ToTensor()
+               Normalize(mean=[0.5], std=[0.5])
+           )    
+[2026-01-21 14:21:02]   epoch: [1/50]  step: [10/2087] (0.5%)  eta_epoch: 19:01  eta_total: 15:55:30  loss: 3.5020  time: 0.122  data_time: 0.001  forward_time: 0.015  backward_time: 0.026  lr: 0.000100  max_mem: 8627M      
+[2026-01-21 14:21:04]   epoch: [1/50]  step: [20/2087] (1.0%)  eta_epoch: 11:58  eta_total: 10:04:31  loss: 3.4291  time: 0.122  data_time: 0.001  forward_time: 0.014  backward_time: 0.027  lr: 0.000100  max_mem: 8627M      
+[2026-01-21 14:21:06]   epoch: [1/50]  step: [30/2087] (1.4%)  eta_epoch: 10:00  eta_total: 8:27:22  loss: 3.4504  time: 0.122  data_time: 0.001  forward_time: 0.019  backward_time: 0.024  lr: 0.000100  max_mem: 8627M      
+[2026-01-21 14:21:08]   epoch: [1/50]  step: [40/2087] (1.9%)  eta_epoch: 8:52  eta_total: 7:32:23  loss: 3.3269  time: 0.123  data_time: 0.001  forward_time: 0.017  backward_time: 0.025  lr: 0.000100  max_mem: 8627M      
+[2026-01-21 14:21:10]   epoch: [1/50]  step: [50/2087] (2.4%)  eta_epoch: 8:11  eta_total: 6:59:36  loss: 3.3240  time: 0.122  data_time: 0.001  forward_time: 0.015  backward_time: 0.026  lr: 0.000100  max_mem: 8627M      
+[2026-01-21 14:21:11]   epoch: [1/50]  step: [60/2087] (2.9%)  eta_epoch: 7:17  eta_total: 6:15:34  loss: 3.2499  time: 0.122  data_time: 0.001  forward_time: 0.015  backward_time: 0.026  lr: 0.000100  max_mem: 8627M      
+[2026-01-21 14:21:13]   epoch: [1/50]  step: [70/2087] (3.4%)  eta_epoch: 7:05  eta_total: 6:06:19  loss: 3.4658  time: 0.122  data_time: 0.001  forward_time: 0.014  backward_time: 0.026  lr: 0.000100  max_mem: 8627M      
+[2026-01-21 14:21:15]   epoch: [1/50]  step: [80/2087] (3.8%)  eta_epoch: 6:47  eta_total: 5:52:57  loss: 3.2980  time: 0.122  data_time: 0.001  forward_time: 0.015  backward_time: 0.030  lr: 0.000100  max_mem: 8627M      
+[2026-01-21 14:21:17]   epoch: [1/50]  step: [90/2087] (4.3%)  eta_epoch: 6:36  eta_total: 5:44:50  loss: 3.3444  time: 0.122  data_time: 0.001  forward_time: 0.014  backward_time: 0.027  lr: 0.000100  max_mem: 8627M      
+[2026-01-21 14:21:19]   epoch: [1/50]  step: [100/2087] (4.8%)  eta_epoch: 6:27  eta_total: 5:38:49  loss: 3.1716  time: 0.123  data_time: 0.001  forward_time: 0.024  backward_time: 0.018  lr: 0.000100  max_mem: 8627M      
+[2026-01-21 14:21:20]   epoch: [1/50]  step: [110/2087] (5.3%)  eta_epoch: 6:20  eta_total: 5:34:10  loss: 3.4622  time: 0.122  data_time: 0.001  forward_time: 0.015  backward_time: 0.026  lr: 0.000100  max_mem: 8627M      
