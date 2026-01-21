@@ -107,10 +107,22 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             if len(step_times) > 50:
                 step_times.pop(0)
             
-            # Calculate progress and ETA
+            # Calculate progress and ETA using actual elapsed time for better accuracy
             current_step = epoch * len(train_loader) + step + 1
             progress = (current_step / total_steps) * 100
-            avg_step_time = sum(step_times) / len(step_times)
+            
+            # Use actual elapsed time for more accurate ETA
+            elapsed_time = time.time() - start_time
+            if current_step > 0:
+                avg_time_per_step = elapsed_time / current_step
+            else:
+                avg_time_per_step = sum(step_times) / len(step_times) if step_times else 0.0
+            
+            # Also keep recent step average as fallback
+            recent_avg_step_time = sum(step_times) / len(step_times) if step_times else 0.0
+            # Use weighted average: 70% actual elapsed time, 30% recent average (adapts to current speed)
+            avg_step_time = 0.7 * avg_time_per_step + 0.3 * recent_avg_step_time
+            
             remaining_steps = total_steps - current_step
             eta_seconds = remaining_steps * avg_step_time
             eta_hours = int(eta_seconds // 3600)
@@ -120,8 +132,15 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             # Calculate epoch-level progress and ETA
             current_epoch = epoch + 1
             epoch_progress = (step + 1) / len(train_loader) * 100
+            epoch_elapsed_time = time.time() - epoch_start_time
+            if step > 0:
+                epoch_avg_time_per_step = epoch_elapsed_time / (step + 1)
+            else:
+                epoch_avg_time_per_step = recent_avg_step_time
+            # Use weighted average for epoch ETA too
+            epoch_avg_step_time = 0.7 * epoch_avg_time_per_step + 0.3 * recent_avg_step_time
             epoch_remaining_steps = len(train_loader) - step - 1
-            epoch_eta_seconds = epoch_remaining_steps * avg_step_time
+            epoch_eta_seconds = epoch_remaining_steps * epoch_avg_step_time
             epoch_eta_minutes = int(epoch_eta_seconds // 60)
             epoch_eta_secs = int(epoch_eta_seconds % 60)
             
@@ -268,10 +287,22 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             if len(step_times) > 50:
                 step_times.pop(0)
             
-            # Calculate progress and ETA
+            # Calculate progress and ETA using actual elapsed time for better accuracy
             current_step = epoch * len(train_loader) + step + 1
             progress = (current_step / total_steps) * 100
-            avg_step_time = sum(step_times) / len(step_times)
+            
+            # Use actual elapsed time for more accurate ETA
+            elapsed_time = time.time() - start_time
+            if current_step > 0:
+                avg_time_per_step = elapsed_time / current_step
+            else:
+                avg_time_per_step = sum(step_times) / len(step_times) if step_times else 0.0
+            
+            # Also keep recent step average as fallback
+            recent_avg_step_time = sum(step_times) / len(step_times) if step_times else 0.0
+            # Use weighted average: 70% actual elapsed time, 30% recent average (adapts to current speed)
+            avg_step_time = 0.7 * avg_time_per_step + 0.3 * recent_avg_step_time
+            
             remaining_steps = total_steps - current_step
             eta_seconds = remaining_steps * avg_step_time
             eta_hours = int(eta_seconds // 3600)
@@ -281,8 +312,15 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             # Calculate epoch-level progress and ETA
             current_epoch = epoch + 1
             epoch_progress = (step + 1) / len(train_loader) * 100
+            epoch_elapsed_time = time.time() - epoch_start_time
+            if step > 0:
+                epoch_avg_time_per_step = epoch_elapsed_time / (step + 1)
+            else:
+                epoch_avg_time_per_step = recent_avg_step_time
+            # Use weighted average for epoch ETA too
+            epoch_avg_step_time = 0.7 * epoch_avg_time_per_step + 0.3 * recent_avg_step_time
             epoch_remaining_steps = len(train_loader) - step - 1
-            epoch_eta_seconds = epoch_remaining_steps * avg_step_time
+            epoch_eta_seconds = epoch_remaining_steps * epoch_avg_step_time
             epoch_eta_minutes = int(epoch_eta_seconds // 60)
             epoch_eta_secs = int(epoch_eta_seconds % 60)
             
