@@ -573,3 +573,9 @@ Saving checkpoint...
 [2026-01-21 13:31:03]   eta: 24:13:01  iter: 5405  progress: 1.3  loss: 2.2441  time: 0.212  data_time: 0.004  forward_time: 0.138  backward_time: 0.070  lr: 0.000100  max_mem: 5159M    
 [2026-01-21 13:32:08]   eta: 23:54:27  iter: 5415  progress: 1.3  loss: 2.0834  time: 0.174  data_time: 0.004  forward_time: 0.120  backward_time: 0.025  lr: 0.000100  max_mem: 5159M    
 [2026-01-21 13:33:17]   eta: 24:16:55  iter: 5425  progress: 1.3  loss: 1.7508  time: 0.232  data_time: 0.004  forward_time: 0.157  backward_time: 0.070  lr: 0.000100  max_mem: 5159M    
+[2026-01-21 13:34:24]   eta: 24:41:38  iter: 5435  progress: 1.3  loss: 2.9419  time: 0.209  data_time: 0.003  forward_time: 0.133  backward_time: 0.072  lr: 0.000100  max_mem: 5159M    
+[2026-01-21 13:35:33]   eta: 24:25:28  iter: 5445  progress: 1.3  loss: 1.5919  time: 0.180  data_time: 0.004  forward_time: 0.107  backward_time: 0.064  lr: 0.000100  max_mem: 5159M    
+[2026-01-21 13:36:40]   eta: 24:59:26  iter: 5455  progress: 1.3  loss: 2.2668  time: 0.178  data_time: 0.004  forward_time: 0.104  backward_time: 0.068  lr: 0.000100  max_mem: 5159M    
+[2026-01-21 13:37:47]   eta: 25:03:48  iter: 5465  progress: 1.3  loss: 1.8935  time: 0.237  data_time: 0.003  forward_time: 0.158  backward_time: 0.075  lr: 0.000100  max_mem: 5159M    
+[2026-01-21 13:38:58]   eta: 24:33:44  iter: 5475  progress: 1.3  loss: 2.3731  time: 0.211  data_time: 0.004  forward_time: 0.133  backward_time: 0.074  lr: 0.000100  max_mem: 5159M    
+[2026-01-21 13:40:05]   eta: 24:12:29  iter: 5485  progress: 1.3  loss: 2.3443  time: 0.227  data_time: 0.091  forward_time: 0.059  backward_time: 0.077  lr: 0.000100  max_mem: 5159M    

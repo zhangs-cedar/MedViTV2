@@ -142,10 +142,10 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
                       f"eta_epoch: {epoch_eta_minutes}:{epoch_eta_secs:02d}  "
                       f"eta_total: {eta_hours}:{eta_minutes:02d}:{eta_secs:02d}  "
                       f"loss: {loss.item():.4f}  "
-                      f"time: {step_time:.3f}  data_time: {data_time:.3f}  "
-                      f"forward_time: {forward_time:.3f}  backward_time: {backward_time:.3f}  "
+                      f"time: {step_time:.3f}  data_time: {data_time:.3f}  " # 增加iter: {current_step}
+                      f"forward_time: {forward_time:.3f}  backward_time: {backward_time:.3f}  " 
                       f"lr: {current_lr:.6f}  max_mem: {max_mem:.0f}M  "
-                      f"iter: {current_step}")
+                      )
         
         # Epoch performance statistics
         epoch_time = time.time() - epoch_start_time
@@ -306,7 +306,7 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
                       f"time: {step_time:.3f}  data_time: {data_time:.3f}  "
                       f"forward_time: {forward_time:.3f}  backward_time: {backward_time:.3f}  "
                       f"lr: {current_lr:.6f}  max_mem: {max_mem:.0f}M  "
-                      f"iter: {current_step}")
+                      )
         
         # Epoch performance statistics
         epoch_time = time.time() - epoch_start_time

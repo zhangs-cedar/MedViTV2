@@ -1894,3 +1894,17 @@ Saving checkpoint...
 [2026-01-21 13:31:48]   eta: 15:55:31  iter: 18480  progress: 4.4  loss: 1.6782  time: 0.201  data_time: 0.001  forward_time: 0.099  backward_time: 0.031  lr: 0.000100  max_mem: 7782M    
 [2026-01-21 13:32:36]   eta: 15:49:38  iter: 18490  progress: 4.5  loss: 1.7242  time: 0.200  data_time: 0.002  forward_time: 0.100  backward_time: 0.026  lr: 0.000100  max_mem: 7782M    
 [2026-01-21 13:33:21]   eta: 15:37:18  iter: 18500  progress: 4.5  loss: 2.0713  time: 0.186  data_time: 0.002  forward_time: 0.100  backward_time: 0.022  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:34:26]   eta: 15:49:51  iter: 18510  progress: 4.5  loss: 2.0958  time: 0.182  data_time: 0.002  forward_time: 0.095  backward_time: 0.021  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:35:06]   eta: 15:45:42  iter: 18520  progress: 4.5  loss: 1.4510  time: 0.119  data_time: 0.002  forward_time: 0.025  backward_time: 0.022  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:36:10]   eta: 15:30:43  iter: 18530  progress: 4.5  loss: 2.1235  time: 0.182  data_time: 0.002  forward_time: 0.095  backward_time: 0.020  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:36:45]   eta: 15:11:32  iter: 18540  progress: 4.5  loss: 2.4635  time: 0.120  data_time: 0.002  forward_time: 0.020  backward_time: 0.026  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:37:13]   eta: 15:39:15  iter: 18550  progress: 4.5  loss: 1.4295  time: 0.119  data_time: 0.002  forward_time: 0.019  backward_time: 0.027  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:37:41]   eta: 15:29:11  iter: 18560  progress: 4.5  loss: 1.7200  time: 0.120  data_time: 0.002  forward_time: 0.018  backward_time: 0.027  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:38:08]   eta: 15:45:15  iter: 18570  progress: 4.5  loss: 2.0440  time: 0.121  data_time: 0.002  forward_time: 0.018  backward_time: 0.073  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:38:31]   eta: 15:51:40  iter: 18580  progress: 4.5  loss: 2.6972  time: 0.119  data_time: 0.002  forward_time: 0.018  backward_time: 0.028  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:38:53]   eta: 16:11:13  iter: 18590  progress: 4.5  loss: 2.1545  time: 0.177  data_time: 0.002  forward_time: 0.090  backward_time: 0.020  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:39:16]   eta: 15:46:34  iter: 18600  progress: 4.5  loss: 1.6802  time: 0.204  data_time: 0.087  forward_time: 0.017  backward_time: 0.028  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:39:40]   eta: 15:55:57  iter: 18610  progress: 4.5  loss: 1.9483  time: 0.118  data_time: 0.002  forward_time: 0.022  backward_time: 0.022  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:40:05]   eta: 15:59:46  iter: 18620  progress: 4.5  loss: 1.9105  time: 0.222  data_time: 0.101  forward_time: 0.027  backward_time: 0.023  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:40:27]   eta: 15:47:53  iter: 18630  progress: 4.5  loss: 1.8539  time: 0.188  data_time: 0.002  forward_time: 0.095  backward_time: 0.018  lr: 0.000100  max_mem: 7782M    
+[2026-01-21 13:40:54]   eta: 15:38:33  iter: 18640  progress: 4.5  loss: 1.7836  time: 0.179  data_time: 0.002  forward_time: 0.092  backward_time: 0.027  lr: 0.000100  max_mem: 7782M    
