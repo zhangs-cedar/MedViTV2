@@ -63,6 +63,9 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
         net.train()
         running_loss = 0.0
         epoch_start_time = time.time()
+        epoch_data_times = []
+        epoch_forward_times = []
+        epoch_backward_times = []
         
         for step, datax in enumerate(train_loader):
             step_start_time = time.time()
@@ -72,6 +75,7 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             images, labels = datax
             images, labels = images.to(device), labels.to(device)
             data_time = time.time() - data_start
+            epoch_data_times.append(data_time)
             
             # Forward pass
             forward_start = time.time()
@@ -85,6 +89,7 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
                 labels = labels.squeeze().long()
                 loss = loss_function(outputs.squeeze(0), labels)
             forward_time = time.time() - forward_start
+            epoch_forward_times.append(forward_time)
             
             # Backward pass
             backward_start = time.time()
@@ -92,6 +97,7 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             optimizer.step()
             scheduler.step()
             backward_time = time.time() - backward_start
+            epoch_backward_times.append(backward_time)
             
             running_loss += loss.item()
             step_time = time.time() - step_start_time
@@ -111,6 +117,14 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             eta_minutes = int((eta_seconds % 3600) // 60)
             eta_secs = int(eta_seconds % 60)
             
+            # Calculate epoch-level progress and ETA
+            current_epoch = epoch + 1
+            epoch_progress = (step + 1) / len(train_loader) * 100
+            epoch_remaining_steps = len(train_loader) - step - 1
+            epoch_eta_seconds = epoch_remaining_steps * avg_step_time
+            epoch_eta_minutes = int(epoch_eta_seconds // 60)
+            epoch_eta_secs = int(epoch_eta_seconds % 60)
+            
             # Get learning rate
             current_lr = scheduler.get_last_lr()[0]
             
@@ -123,12 +137,32 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
                 max_mem = 0
             
             if (step + 1) % 10 == 0 or (step + 1) == len(train_loader):
-                print(f"eta: {eta_hours}:{eta_minutes:02d}:{eta_secs:02d}  "
-                      f"iter: {current_step}  progress: {progress:.1f}  "
+                print(f"epoch: [{current_epoch}/{epochs}]  "
+                      f"step: [{step+1}/{len(train_loader)}] ({epoch_progress:.1f}%)  "
+                      f"eta_epoch: {epoch_eta_minutes}:{epoch_eta_secs:02d}  "
+                      f"eta_total: {eta_hours}:{eta_minutes:02d}:{eta_secs:02d}  "
                       f"loss: {loss.item():.4f}  "
                       f"time: {step_time:.3f}  data_time: {data_time:.3f}  "
                       f"forward_time: {forward_time:.3f}  backward_time: {backward_time:.3f}  "
-                      f"lr: {current_lr:.6f}  max_mem: {max_mem:.0f}M")
+                      f"lr: {current_lr:.6f}  max_mem: {max_mem:.0f}M  "
+                      f"iter: {current_step}")
+        
+        # Epoch performance statistics
+        epoch_time = time.time() - epoch_start_time
+        avg_data_time = sum(epoch_data_times) / len(epoch_data_times)
+        avg_forward_time = sum(epoch_forward_times) / len(epoch_forward_times)
+        avg_backward_time = sum(epoch_backward_times) / len(epoch_backward_times)
+        avg_step_time_epoch = sum(step_times[-len(train_loader):]) / min(len(train_loader), len(step_times))
+        samples_per_sec = len(train_loader.dataset) / epoch_time
+        
+        print(f"[epoch {epoch + 1} training completed] "
+              f"avg_loss: {running_loss / len(train_loader):.4f}  "
+              f"epoch_time: {epoch_time:.2f}s  "
+              f"avg_data_time: {avg_data_time:.3f}s  "
+              f"avg_forward_time: {avg_forward_time:.3f}s  "
+              f"avg_backward_time: {avg_backward_time:.3f}s  "
+              f"avg_step_time: {avg_step_time_epoch:.3f}s  "
+              f"throughput: {samples_per_sec:.1f} samples/s")
         
         net.eval()
         y_score = torch.tensor([])
@@ -195,6 +229,9 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
         net.train()
         running_loss = 0.0
         epoch_start_time = time.time()
+        epoch_data_times = []
+        epoch_forward_times = []
+        epoch_backward_times = []
 
         # Training Loop
         for step, datax in enumerate(train_loader):
@@ -205,6 +242,7 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             images, labels = datax
             images, labels = images.to(device), labels.to(device)
             data_time = time.time() - data_start
+            epoch_data_times.append(data_time)
             
             # Forward pass
             forward_start = time.time()
@@ -212,6 +250,7 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             outputs = net(images)
             loss = loss_function(outputs, labels)
             forward_time = time.time() - forward_start
+            epoch_forward_times.append(forward_time)
             
             # Backward pass
             backward_start = time.time()
@@ -219,6 +258,7 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             optimizer.step()
             scheduler.step()
             backward_time = time.time() - backward_start
+            epoch_backward_times.append(backward_time)
             
             running_loss += loss.item()
             step_time = time.time() - step_start_time
@@ -238,6 +278,14 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
             eta_minutes = int((eta_seconds % 3600) // 60)
             eta_secs = int(eta_seconds % 60)
             
+            # Calculate epoch-level progress and ETA
+            current_epoch = epoch + 1
+            epoch_progress = (step + 1) / len(train_loader) * 100
+            epoch_remaining_steps = len(train_loader) - step - 1
+            epoch_eta_seconds = epoch_remaining_steps * avg_step_time
+            epoch_eta_minutes = int(epoch_eta_seconds // 60)
+            epoch_eta_secs = int(epoch_eta_seconds % 60)
+            
             # Get learning rate
             current_lr = scheduler.get_last_lr()[0]
             
@@ -250,12 +298,32 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
                 max_mem = 0
             
             if (step + 1) % 10 == 0 or (step + 1) == len(train_loader):
-                print(f"eta: {eta_hours}:{eta_minutes:02d}:{eta_secs:02d}  "
-                      f"iter: {current_step}  progress: {progress:.1f}  "
+                print(f"epoch: [{current_epoch}/{epochs}]  "
+                      f"step: [{step+1}/{len(train_loader)}] ({epoch_progress:.1f}%)  "
+                      f"eta_epoch: {epoch_eta_minutes}:{epoch_eta_secs:02d}  "
+                      f"eta_total: {eta_hours}:{eta_minutes:02d}:{eta_secs:02d}  "
                       f"loss: {loss.item():.4f}  "
                       f"time: {step_time:.3f}  data_time: {data_time:.3f}  "
                       f"forward_time: {forward_time:.3f}  backward_time: {backward_time:.3f}  "
-                      f"lr: {current_lr:.6f}  max_mem: {max_mem:.0f}M")
+                      f"lr: {current_lr:.6f}  max_mem: {max_mem:.0f}M  "
+                      f"iter: {current_step}")
+        
+        # Epoch performance statistics
+        epoch_time = time.time() - epoch_start_time
+        avg_data_time = sum(epoch_data_times) / len(epoch_data_times)
+        avg_forward_time = sum(epoch_forward_times) / len(epoch_forward_times)
+        avg_backward_time = sum(epoch_backward_times) / len(epoch_backward_times)
+        avg_step_time_epoch = sum(step_times[-len(train_loader):]) / min(len(train_loader), len(step_times))
+        samples_per_sec = len(train_loader.dataset) / epoch_time
+        
+        print(f"[epoch {epoch + 1} training completed] "
+              f"avg_loss: {running_loss / len(train_loader):.4f}  "
+              f"epoch_time: {epoch_time:.2f}s  "
+              f"avg_data_time: {avg_data_time:.3f}s  "
+              f"avg_forward_time: {avg_forward_time:.3f}s  "
+              f"avg_backward_time: {avg_backward_time:.3f}s  "
+              f"avg_step_time: {avg_step_time_epoch:.3f}s  "
+              f"throughput: {samples_per_sec:.1f} samples/s")
         
         # Validation Loop
         net.eval()
@@ -385,8 +453,24 @@ def main(args):
     optimizer = optim.AdamW(net.parameters(), lr=lr, betas=[0.9, 0.999], weight_decay=0.05)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=eta, eta_min=5e-6)
     
-    train_loader = data.DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
-    test_loader = data.DataLoader(dataset=test_dataset, batch_size=2*batch_size, shuffle=False)
+    # Optimize DataLoader with multi-process loading and pinned memory
+    num_workers = min(4, os.cpu_count() or 1)  # Use 4 workers or available CPU cores, whichever is smaller
+    train_loader = data.DataLoader(
+        dataset=train_dataset, 
+        batch_size=batch_size, 
+        shuffle=True,
+        num_workers=num_workers,
+        pin_memory=True,
+        persistent_workers=True if num_workers > 0 else False
+    )
+    test_loader = data.DataLoader(
+        dataset=test_dataset, 
+        batch_size=2*batch_size, 
+        shuffle=False,
+        num_workers=num_workers,
+        pin_memory=True,
+        persistent_workers=True if num_workers > 0 else False
+    )
     
     print(train_dataset)
     print("===================")
