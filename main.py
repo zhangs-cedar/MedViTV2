@@ -437,6 +437,24 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
 def main(args):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print("Using {} device.".format(device))
+    
+    # 打印配置参数
+    print("\n========== Configuration Parameters ==========")
+    print(f"model_name: {args.model_name}")
+    print(f"dataset: {args.dataset}")
+    print(f"pretrained: {args.pretrained}")
+    print(f"batch_size: {args.batch_size}")
+    print(f"lr: {args.lr}")
+    print(f"epochs: {args.epochs}")
+    print(f"data_dir: {args.data_dir}")
+    print(f"save_dir: {args.save_dir}")
+    print(f"num_workers: {args.num_workers}")
+    print(f"gpu: {args.gpu}")
+    print(f"size: {args.size}")
+    print(f"verbose: {args.verbose}")
+    print(f"resume: {args.resume}")
+    print("============================================\n")
+    
     model_name = args.model_name
     dataset_name = args.dataset
     pretrained = args.pretrained
