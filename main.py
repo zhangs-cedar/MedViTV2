@@ -52,6 +52,31 @@ def download_checkpoint(url, path):
                         f.write(chunk)
     print(f"Checkpoint downloaded and saved to {path}")
 
+def topk(output, target, k=(1,)):
+    """Calculate top-k accuracy.
+    
+    Args:
+        output: Model output tensor of shape (batch_size, num_classes)
+        target: Ground truth labels tensor of shape (batch_size,)
+        k: Tuple of k values to calculate (e.g., (1, 5) for top-1 and top-5)
+    
+    Returns:
+        List of top-k accuracies for each k value
+    """
+    with torch.no_grad():
+        maxk = max(k)
+        batch_size = target.size(0)
+        
+        _, pred = output.topk(maxk, 1, True, True)
+        pred = pred.t()
+        correct = pred.eq(target.view(1, -1).expand_as(pred))
+        
+        res = []
+        for k_val in k:
+            correct_k = correct[:k_val].reshape(-1).float().sum(0, keepdim=True)
+            res.append(correct_k.mul_(100.0 / batch_size).item())
+        return res
+
 # Define the MNIST training routine
 def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, loss_function, device, save_path, data_flag, task):
     best_acc = 0.0
@@ -185,28 +210,58 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
         
         net.eval()
         y_score = torch.tensor([])
+        top1_list = []
+        top5_list = []
         with torch.no_grad():
             print(f"Validating epoch[{epoch + 1}/{epochs}]...")
             for val_data in test_loader:
                 inputs, targets = val_data
-                outputs = net(inputs.to(device))
+                inputs, targets = inputs.to(device), targets.to(device)
+                outputs = net(inputs)
                 
                 if task == 'multi-label, binary-class':
                     targets = targets.to(torch.float32)
-                    outputs = outputs.softmax(dim=-1)
+                    outputs_softmax = outputs.softmax(dim=-1)
+                    # For multi-label, use argmax of targets as ground truth
+                    targets_for_acc = targets.argmax(dim=1) if len(targets.shape) > 1 else targets.long()
                 else:
                     targets = targets.squeeze().long()
-                    outputs = outputs.softmax(dim=-1)
-                    targets = targets.float().resize_(len(targets), 1)
+                    outputs_softmax = outputs.softmax(dim=-1)
+                    targets_for_acc = targets
+                    targets_resized = targets.float().resize_(len(targets), 1)
                 
-                y_score = torch.cat((y_score, outputs.cpu()), 0)
+                # Calculate top-k accuracy for this batch
+                num_classes = outputs.size(1)
+                if num_classes >= 5:
+                    tops = topk(outputs, targets_for_acc, k=(1, 5))
+                    top1_list.append(tops[0])
+                    top5_list.append(tops[1])
+                else:
+                    tops = topk(outputs, targets_for_acc, k=(1,))
+                    top1_list.append(tops[0])
+                    top5_list.append(tops[0])  # If fewer than 5 classes, top5 = top1
+                
+                y_score = torch.cat((y_score, outputs_softmax.cpu()), 0)
                 
         y_score = y_score.detach().numpy()
         evaluator = Evaluator(data_flag, 'test', size=224, root='./data')
         metrics = evaluator.evaluate(y_score)
         
+        # Calculate average top1 and top5 accuracy
+        top1_acc = sum(top1_list) / len(top1_list) / 100.0  # Convert from percentage to fraction
+        top5_acc = sum(top5_list) / len(top5_list) / 100.0  # Convert from percentage to fraction
+        
         val_accurate, _ = metrics
-        print(f'[epoch {epoch + 1}] train_loss: {running_loss / len(train_loader):.3f}  auc: {metrics[0]:.3f}  acc: {metrics[1]:.3f}')
+        num_classes = outputs.size(1)
+        print(f'\n{"="*60}')
+        print(f'[Epoch {epoch + 1}/{epochs}] Validation Results:')
+        print(f'  Train Loss:    {running_loss / len(train_loader):.4f}')
+        print(f'  AUC:           {metrics[0]:.4f}')
+        print(f'  Top-1 Acc:      {top1_acc:.4f} ({top1_acc*100:.2f}%)')
+        if num_classes >= 5:
+            print(f'  Top-5 Acc:      {top5_acc:.4f} ({top5_acc*100:.2f}%)')
+        print(f'  MedMNIST Acc:   {metrics[1]:.4f} ({metrics[1]*100:.2f}%)')
+        print(f'{"="*60}\n')
         #print(f'lr: {scheduler.get_last_lr()[-1]:.8f}')
         if val_accurate > best_acc:
             print('\nSaving checkpoint...')
@@ -368,14 +423,15 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
         all_preds = []
         all_labels = []
         all_probs = []  # Store raw probabilities/logits for AUC
-        acc = 0.0  # Top1 accuracy
-        acc_top5 = 0.0  # Top5 accuracy
+        top1_list = []
+        top5_list = []
         
         with torch.no_grad():
             print(f"Validating epoch[{epoch + 1}/{epochs}]...")
             for val_data in test_loader:
                 val_images, val_labels = val_data
-                outputs = net(val_images.to(device))  # Raw outputs (logits)
+                val_images, val_labels = val_images.to(device), val_labels.to(device)
+                outputs = net(val_images)  # Raw outputs (logits)
                 probs = torch.softmax(outputs, dim=1)  # Convert to probabilities
                 
                 predict_y = torch.max(probs, dim=1)[1]  # Predicted class
@@ -385,11 +441,23 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
                 all_labels.extend(val_labels.cpu().numpy())
                 all_probs.extend(probs.cpu().numpy())
 
-                # Calculate accuracy
-                acc += torch.eq(predict_y, val_labels.to(device)).sum().item()
+                # Calculate top-k accuracy for this batch
+                num_classes = outputs.size(1)
+                if num_classes >= 5:
+                    tops = topk(outputs, val_labels, k=(1, 5))
+                    top1_list.append(tops[0])
+                    top5_list.append(tops[1])
+                else:
+                    tops = topk(outputs, val_labels, k=(1,))
+                    top1_list.append(tops[0])
+                    top5_list.append(tops[0])  # If fewer than 5 classes, top5 = top1
+        
+        # Calculate average top1 and top5 accuracy
+        top1_acc = sum(top1_list) / len(top1_list) / 100.0  # Convert from percentage to fraction
+        top5_acc = sum(top5_list) / len(top5_list) / 100.0  # Convert from percentage to fraction
         
         # Calculate metrics
-        val_accurate = acc / len(test_loader.dataset)
+        val_accurate = top1_acc
         precision = precision_score(all_labels, all_preds, average='weighted')
         recall = recall_score(all_labels, all_preds, average='weighted')  # Sensitivity
         f1 = f1_score(all_labels, all_preds, average='weighted')
@@ -412,11 +480,23 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
         except ValueError:
             auc = float('nan')  # Handle edge case where AUC can't be computed
 
-        # Print metrics
-        print(f'[epoch {epoch + 1}] train_loss: {running_loss / len(train_loader):.3f} '
-              f'val_accuracy: {val_accurate:.4f} precision: {precision:.4f} '
-              f'recall: {recall:.4f} specificity: {avg_specificity:.4f} '
-              f'f1_score: {f1:.4f} auc: {auc:.4f} overall_accuracy: {overall_acc:.4f}')
+        # Get num_classes from confusion matrix
+        num_classes = len(conf_matrix)
+        
+        # Print metrics with improved format
+        print(f'\n{"="*60}')
+        print(f'[Epoch {epoch + 1}/{epochs}] Validation Results:')
+        print(f'  Train Loss:     {running_loss / len(train_loader):.4f}')
+        print(f'  Top-1 Acc:       {top1_acc:.4f} ({top1_acc*100:.2f}%)')
+        if num_classes >= 5:
+            print(f'  Top-5 Acc:       {top5_acc:.4f} ({top5_acc*100:.2f}%)')
+        print(f'  Precision:      {precision:.4f}')
+        print(f'  Recall:          {recall:.4f}')
+        print(f'  Specificity:     {avg_specificity:.4f}')
+        print(f'  F1-Score:        {f1:.4f}')
+        print(f'  AUC:             {auc:.4f}')
+        print(f'  Overall Acc:     {overall_acc:.4f}')
+        print(f'{"="*60}\n')
         
         #print(f'lr: {scheduler.get_last_lr()[-1]:.8f}')
         
