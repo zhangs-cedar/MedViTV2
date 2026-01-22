@@ -368,7 +368,8 @@ def train_other(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
         all_preds = []
         all_labels = []
         all_probs = []  # Store raw probabilities/logits for AUC
-        acc = 0.0
+        acc = 0.0  # Top1 accuracy
+        acc_top5 = 0.0  # Top5 accuracy
         
         with torch.no_grad():
             print(f"Validating epoch[{epoch + 1}/{epochs}]...")
