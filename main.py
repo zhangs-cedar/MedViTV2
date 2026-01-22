@@ -248,6 +248,8 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
         metrics = evaluator.evaluate(y_score)
         
         # Calculate average top1 and top5 accuracy
+        # Note: Top-1 Acc uses batch-wise average, while MedMNIST Acc uses overall calculation
+        # This can cause slight differences, especially when batch sizes vary
         top1_acc = sum(top1_list) / len(top1_list) / 100.0  # Convert from percentage to fraction
         top5_acc = sum(top5_list) / len(top5_list) / 100.0  # Convert from percentage to fraction
         
@@ -257,10 +259,10 @@ def train_mnist(epochs, net, train_loader, test_loader, optimizer, scheduler, lo
         print(f'[Epoch {epoch + 1}/{epochs}] Validation Results:')
         print(f'  Train Loss:    {running_loss / len(train_loader):.4f}')
         print(f'  AUC:           {metrics[0]:.4f}')
-        print(f'  Top-1 Acc:      {top1_acc:.4f} ({top1_acc*100:.2f}%)')
+        print(f'  Top-1 Acc:      {top1_acc:.4f} ({top1_acc*100:.2f}%) [batch-wise avg, using logits]')
         if num_classes >= 5:
             print(f'  Top-5 Acc:      {top5_acc:.4f} ({top5_acc*100:.2f}%)')
-        print(f'  MedMNIST Acc:   {metrics[1]:.4f} ({metrics[1]*100:.2f}%)')
+        print(f'  MedMNIST Acc:   {metrics[1]:.4f} ({metrics[1]*100:.2f}%) [overall calc, using softmax probs]')
         print(f'{"="*60}\n')
         #print(f'lr: {scheduler.get_last_lr()[-1]:.8f}')
         if val_accurate > best_acc:
