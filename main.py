@@ -447,13 +447,6 @@ def main(args):
     print(f"batch_size: {args.batch_size}")
     print(f"lr: {args.lr}")
     print(f"epochs: {args.epochs}")
-    print(f"data_dir: {args.data_dir}")
-    print(f"save_dir: {args.save_dir}")
-    print(f"num_workers: {args.num_workers}")
-    print(f"gpu: {args.gpu}")
-    print(f"size: {args.size}")
-    print(f"verbose: {args.verbose}")
-    print(f"resume: {args.resume}")
     print("============================================\n")
     
     model_name = args.model_name

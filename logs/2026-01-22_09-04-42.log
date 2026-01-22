@@ -1,0 +1,13 @@
+[2026-01-22 09:04:42]   ROOT_DIR: /dataset/songzhang/SMore_dev/learning/MedViTV2    
+[2026-01-22 09:04:42]   LOG_PATH: /dataset/songzhang/SMore_dev/learning/MedViTV2/logs/2026-01-22_09-04-42.log    
+[2026-01-22 09:04:42]   Using cuda:0 device.    
+[2026-01-22 09:04:42]   
+========== Configuration Parameters ==========    
+[2026-01-22 09:04:42]   model_name: MedViT_small    
+[2026-01-22 09:04:42]   dataset: breastmnist    
+[2026-01-22 09:04:42]   pretrained: False    
+[2026-01-22 09:04:42]   batch_size: 24    
+[2026-01-22 09:04:42]   lr: 0.0001    
+[2026-01-22 09:04:42]   epochs: 1    
+[2026-01-22 09:04:42]   ============================================
+    

@@ -4,6 +4,7 @@ import shutil
 from zipfile import ZipFile
 
 # 第三方库
+import medmnist
 import pandas as pd
 import requests
 import torch

@@ -45,11 +45,11 @@ pip install -r requirements.txt
 在单个 GPU 上训练 MedViT-small 模型，使用 breastMNIST 数据集，训练 100 个 epoch：
 
 ```bash
-python main.py --model_name 'MedViT_small' --dataset 'breastmnist' --pretrained False
+python main.py --model_name 'MedViT_small' --dataset 'breastmnist' --pretrained False --epochs 1
 ```
 
 ```bash
-python main.py --model_name 'MedViT_small' --dataset 'fabric' --pretrained False
+python main.py --model_name 'MedViT_small' --dataset 'fabric' --pretrained False --epochs 1
 ```
 
 ### 主要参数说明
