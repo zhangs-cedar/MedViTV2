@@ -37,3 +37,6 @@ Transform: Compose(
 [2026-01-21 14:21:17]   epoch: [1/50]  step: [90/2087] (4.3%)  eta_epoch: 6:36  eta_total: 5:44:50  loss: 3.3444  time: 0.122  data_time: 0.001  forward_time: 0.014  backward_time: 0.027  lr: 0.000100  max_mem: 8627M      
 [2026-01-21 14:21:19]   epoch: [1/50]  step: [100/2087] (4.8%)  eta_epoch: 6:27  eta_total: 5:38:49  loss: 3.1716  time: 0.123  data_time: 0.001  forward_time: 0.024  backward_time: 0.018  lr: 0.000100  max_mem: 8627M      
 [2026-01-21 14:21:20]   epoch: [1/50]  step: [110/2087] (5.3%)  eta_epoch: 6:20  eta_total: 5:34:10  loss: 3.4622  time: 0.122  data_time: 0.001  forward_time: 0.015  backward_time: 0.026  lr: 0.000100  max_mem: 8627M      
+[2026-01-21 14:21:22]   epoch: [1/50]  step: [120/2087] (5.7%)  eta_epoch: 6:12  eta_total: 5:29:12  loss: 3.1702  time: 0.122  data_time: 0.001  forward_time: 0.014  backward_time: 0.027  lr: 0.000100  max_mem: 8627M      
+[2026-01-21 14:21:24]   epoch: [1/50]  step: [130/2087] (6.2%)  eta_epoch: 6:06  eta_total: 5:25:32  loss: 3.2047  time: 0.122  data_time: 0.001  forward_time: 0.014  backward_time: 0.027  lr: 0.000100  max_mem: 8627M      
+[2026-01-21 14:21:26]   epoch: [1/50]  step: [140/2087] (6.7%)  eta_epoch: 6:02  eta_total: 5:22:56  loss: 3.2523  time: 0.123  data_time: 0.001  forward_time: 0.023  backward_time: 0.020  lr: 0.000100  max_mem: 8627M      

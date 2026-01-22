@@ -26,3 +26,4 @@ Transform: Compose(
                ToTensor()
                Normalize(mean=[0.5], std=[0.5])
            )    
+[2026-01-21 14:21:26]   epoch: [1/50]  step: [10/2087] (0.5%)  eta_epoch: 23:06  eta_total: 19:20:40  loss: 3.4847  time: 0.161  data_time: 0.001  forward_time: 0.061  backward_time: 0.058  lr: 0.000100  max_mem: 9928M      

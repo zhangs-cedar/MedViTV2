@@ -164,3 +164,4 @@ Transform: Compose(
 [2026-01-21 14:21:11]   epoch: [1/50]  step: [1360/2078] (65.4%)  eta_epoch: 4:35  eta_total: 10:56:37  loss: 2.1583  time: 0.149  data_time: 0.002  forward_time: 0.038  backward_time: 0.069  lr: 0.000100  max_mem: 9927M      
 [2026-01-21 14:21:15]   epoch: [1/50]  step: [1370/2078] (65.9%)  eta_epoch: 4:31  eta_total: 10:55:59  loss: 2.3946  time: 0.149  data_time: 0.001  forward_time: 0.032  backward_time: 0.067  lr: 0.000100  max_mem: 9927M      
 [2026-01-21 14:21:20]   epoch: [1/50]  step: [1380/2078] (66.4%)  eta_epoch: 4:28  eta_total: 10:56:21  loss: 2.3151  time: 0.148  data_time: 0.001  forward_time: 0.015  backward_time: 0.057  lr: 0.000100  max_mem: 9927M      
+[2026-01-21 14:21:25]   epoch: [1/50]  step: [1390/2078] (66.9%)  eta_epoch: 4:24  eta_total: 10:55:58  loss: 2.2337  time: 0.149  data_time: 0.001  forward_time: 0.031  backward_time: 0.066  lr: 0.000100  max_mem: 9927M      
