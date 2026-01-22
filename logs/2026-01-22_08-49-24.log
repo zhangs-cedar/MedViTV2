@@ -1,0 +1,11 @@
+[2026-01-22 08:49:24]   ROOT_DIR: /dataset/songzhang/SMore_dev/learning/MedViTV2    
+[2026-01-22 08:49:24]   LOG_PATH: /dataset/songzhang/SMore_dev/learning/MedViTV2/logs/2026-01-22_08-49-24.log    
+[2026-01-22 08:49:24]   Using cuda:0 device.    
+[2026-01-22 08:49:24]   
+========== Configuration Parameters ==========    
+[2026-01-22 08:49:24]   model_name: MedViTV2-large    
+[2026-01-22 08:49:24]   dataset: fabric    
+[2026-01-22 08:49:24]   pretrained: False    
+[2026-01-22 08:49:24]   batch_size: 48    
+[2026-01-22 08:49:24]   lr: 0.0001    
+[2026-01-22 08:49:24]   epochs: 70    
