@@ -43,6 +43,6 @@ project/
 ## MedViT复现
 fabric数据基于MedViT_base模型TOP1精度: 66.43% 
 
-github： https://github.com/zhangs-cedar/MedViTV2
+github： https://github.com/zhangs-cedar/MedViTV2/tree/zhangsong
 
 
