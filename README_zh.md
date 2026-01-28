@@ -52,6 +52,11 @@ python main.py --model_name 'MedViT_small' --dataset 'chestmnist' --pretrained F
 python main.py --model_name 'MedViT_small' --dataset 'fabric' --pretrained False --epochs 1
 ```
 
+
+```bash
+python main.py --model_name 'MedViT_small' --dataset 'fiber' --pretrained False --epochs 1
+```
+
 ### 主要参数说明
 
 - `--model_name`: 模型名称，可选 `MedViT_tiny`, `MedViT_small`, `MedViT_base`, `MedViT_large`
