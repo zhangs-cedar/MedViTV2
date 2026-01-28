@@ -1,0 +1,49 @@
+% 示例：基于 MedViT 的布匹织物分类方法（LaTeX 文档框架）
+\documentclass[UTF8]{ctexart}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+
+\title{基于 MedViT 混合架构的布匹织物分类方法及应用改进}
+\author{示例作者}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{技术方案}
+
+\subsection{预处理}
+对织物图像进行尺寸标准化（$224\times 224$ 像素），采用 ImageNet 均值与标准差归一化。
+
+\subsection{MedViT 混合架构}
+网络包含局部特征感知块（LFP）与全局特征感知块（GFP），其中：
+\begin{itemize}
+  \item LFP：采用扩张邻域注意力（DiNA），复杂度 $O(N\times k)$；
+  \item GFP：采用 E-MHSA 与 KAN 层，替代传统 MLP。
+\end{itemize}
+
+\subsection{损失与训练}
+采用交叉熵损失：
+\[
+  L = -\frac{1}{N}\sum_{i=1}^{N}\sum_{c=1}^{C} y_{i,c}\log(p_{i,c})
+\]
+优化器为 AdamW，学习率 $1\times 10^{-4}$，权重衰减 $0.05$，余弦退火 300 轮。
+
+\section{实验结果（示例）}
+
+\begin{table}[htbp]
+  \centering
+  \caption{TextileNet-fabric 织物分类 Top-1 准确率（\%）}
+  \begin{tabular}{lcc}
+    \toprule
+    方法        & Top-1 & 参数量 (M) \\
+    \midrule
+    ResNet50    & 65.28 & 25.6       \\
+    MedViTV2-S  & 72.1  & 28.4       \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\end{document}
