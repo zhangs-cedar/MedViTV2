@@ -52,6 +52,8 @@ python main.py --model_name 'MedViT_small' --dataset 'chestmnist' --pretrained F
 python main.py --model_name 'MedViT_small' --dataset 'fabric' --pretrained False --epochs 1
 ```
 
+python main.py --model_name 'MedViT_large_hrnet' --dataset 'fabric' --pretrained False --epochs 1
+
 
 ```bash
 python main.py --model_name 'MedViT_small' --dataset 'fiber' --pretrained False --epochs 1

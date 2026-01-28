@@ -92,6 +92,60 @@ class ConvBNReLU(nn.Module):
         return x
 
 
+class HRNetStem(nn.Module):
+    def __init__(self, in_channels, out_channels):
+        super(HRNetStem, self).__init__()
+        self.conv1 = nn.Conv2d(in_channels, 64, kernel_size=3, stride=2, padding=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(64, eps=NORM_EPS)
+        self.act1 = nn.ReLU(inplace=True)
+        
+        self.conv2 = nn.Conv2d(64, out_channels, kernel_size=3, stride=2, padding=1, bias=False)
+        self.bn2 = nn.BatchNorm2d(out_channels, eps=NORM_EPS)
+        self.act2 = nn.ReLU(inplace=True)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = self.act1(x)
+        x = self.conv2(x)
+        x = self.bn2(x)
+        x = self.act2(x)
+        return x
+
+
+class BasicBlock(nn.Module):
+    def __init__(self, in_channels, out_channels, stride=1):
+        super(BasicBlock, self).__init__()
+        self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size=3, stride=stride, padding=1, bias=False)
+        self.bn1 = nn.BatchNorm2d(out_channels, eps=NORM_EPS)
+        self.act = nn.ReLU(inplace=True)
+        
+        self.conv2 = nn.Conv2d(out_channels, out_channels, kernel_size=3, stride=1, padding=1, bias=False)
+        self.bn2 = nn.BatchNorm2d(out_channels, eps=NORM_EPS)
+        
+        self.downsample = None
+        if stride != 1 or in_channels != out_channels:
+            self.downsample = nn.Sequential(
+                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),
+                nn.BatchNorm2d(out_channels, eps=NORM_EPS)
+            )
+
+    def forward(self, x):
+        shortcut = x
+        if self.downsample is not None:
+            shortcut = self.downsample(x)
+            
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = self.act(x)
+        
+        x = self.conv2(x)
+        x = self.bn2(x)
+        x += shortcut
+        x = self.act(x)
+        return x
+
+
 def _make_divisible(v, divisor, min_value=None):
     if min_value is None:
         min_value = divisor
@@ -292,7 +346,7 @@ class LFP(nn.Module):
     Efficient Convolution Block
     """
     def __init__(self, in_channels, out_channels, kernel_size=3, stride=1, path_dropout=0.2,
-                 drop=0, head_dim=32, mlp_ratio=3):
+                 drop=0, head_dim=32, mlp_ratio=3, block_type='default'):
         super(LFP, self).__init__()
         self.in_channels = in_channels
         self.out_channels = out_channels
@@ -316,7 +370,10 @@ class LFP(nn.Module):
         )
         self.attention_path_dropout = DropPath(path_dropout)
 
-        self.conv = LocalityFeedForward(out_channels, out_channels, kernel_size, 1, mlp_ratio, reduction=out_channels)
+        if block_type == 'basic':
+            self.conv = BasicBlock(out_channels, out_channels)
+        else:
+            self.conv = LocalityFeedForward(out_channels, out_channels, kernel_size, 1, mlp_ratio, reduction=out_channels)
 
         self.norm2 = norm_layer(out_channels)
         #self.mlp = Mlp(out_channels, mlp_ratio=mlp_ratio, drop=drop, bias=True)
@@ -488,7 +545,7 @@ class MedViT(nn.Module):
                  dims=[64, 128, 320, 512], path_dropout=0.1, attn_drop=0,
                  drop=0, num_classes=1000,
                  strides=[1, 2, 2, 2], sr_ratios=[8, 4, 2, 1], head_dim=32, mix_block_ratio=0.75,
-                 use_checkpoint=False):
+                 use_checkpoint=False, stem_type='original', block_type='default', **kwargs):
         super(MedViT, self).__init__()
         self.use_checkpoint = use_checkpoint
 
@@ -503,12 +560,16 @@ class MedViT(nn.Module):
                                   [LFP, LFP, GFP] * (depths[2] // 3),
                                   [GFP] * (depths[3])]
 
-        self.stem = nn.Sequential(
-            ConvBNReLU(3, stem_chs[0], kernel_size=3, stride=2),
-            ConvBNReLU(stem_chs[0], stem_chs[1], kernel_size=3, stride=1),
-            ConvBNReLU(stem_chs[1], stem_chs[2], kernel_size=3, stride=1),
-            ConvBNReLU(stem_chs[2], stem_chs[2], kernel_size=3, stride=2),
-        )
+        if stem_type == 'hrnet':
+            self.stem = HRNetStem(3, stem_chs[-1])
+        else:
+            self.stem = nn.Sequential(
+                ConvBNReLU(3, stem_chs[0], kernel_size=3, stride=2),
+                ConvBNReLU(stem_chs[0], stem_chs[1], kernel_size=3, stride=1),
+                ConvBNReLU(stem_chs[1], stem_chs[2], kernel_size=3, stride=1),
+                ConvBNReLU(stem_chs[2], stem_chs[2], kernel_size=3, stride=2),
+            )
+            
         input_channel = stem_chs[-1]
         features = []
         idx = 0
@@ -524,12 +585,12 @@ class MedViT(nn.Module):
                 else:
                     stride = 1
                 output_channel = output_channels[block_id]
-                block_type = block_types[block_id]
-                if block_type is LFP:
+                block_type_cls = block_types[block_id]
+                if block_type_cls is LFP:
                     layer = LFP(input_channel, output_channel, stride=stride, kernel_size=kernel, path_dropout=dpr[idx + block_id],
-                                drop=drop, head_dim=head_dim)
+                                drop=drop, head_dim=head_dim, block_type=block_type)
                     features.append(layer)
-                elif block_type is GFP:
+                elif block_type_cls is GFP:
                     layer = GFP(input_channel, output_channel, path_dropout=dpr[idx + block_id], stride=stride,
                                 sr_ratio=sr_ratios[stage_id], head_dim=head_dim, mix_block_ratio=mix_block_ratio,
                                 attn_drop=attn_drop, drop=drop)
@@ -614,4 +675,16 @@ def MedViT_large(pretrained=False, pretrained_cfg=None, pretrained_cfg_overlay= 
                    depths=[2, 2, 6, 2],
                    dims=[96, 256, 512, 1024],
                    path_dropout=0.2, **kwargs)
+    return model
+
+
+@register_model
+def MedViT_large_hrnet(pretrained=False, pretrained_cfg=None, pretrained_cfg_overlay= None, **kwargs):
+    model = MedViT(stem_chs=[64, 32, 64],
+                   depths=[2, 2, 6, 2],
+                   dims=[96, 256, 512, 1024],
+                   path_dropout=0.2,
+                   stem_type='hrnet',
+                   block_type='basic',
+                   **kwargs)
     return model
