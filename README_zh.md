@@ -80,6 +80,13 @@ python main.py --model_name 'MedViT_small' --dataset 'fiber' --pretrained False 
 
 可视化 MedViT 的 Grad-CAM 热图，请参考 [可视化教程](https://github.com/Omid-Nejati/MedViTV2/blob/main/Tutorials/Visualization.ipynb)。
 
+
+
+
+python Heatmap/GradCam_MedViT_large.py --dataset fabric --image-path 'Fig/breastmnist.png'
+
+
+
 ## 性能概览
 
 MedViT 在多个医学图像数据集上的性能表现。预训练模型权重已发布。
