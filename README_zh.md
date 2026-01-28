@@ -82,10 +82,11 @@ python main.py --model_name 'MedViT_small' --dataset 'fiber' --pretrained False 
 
 
 
-
-python Heatmap/GradCam_MedViT_large.py --dataset fabric --image-path 'Fig/breastmnist.png'
-
-
+python Heatmap/GradCam_MedViT_large.py \
+    --dataset fabric \
+    --model-path /dataset/songzhang/SMore_dev/learning/MedViTV2/MedViT_large_fabric.pth \
+    --device cuda \
+    --method gradcam
 
 ## 性能概览
 
